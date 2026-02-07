@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffb6d5, #ffe6f3);
+    font-family: "Poppins", "Comic Sans MS", cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .card {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    width: 360px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 2;
+  }
+
+  h1 {
+    margin-bottom: 15px;
+    font-size: 26px;
+    background: linear-gradient(90deg, #ff4d9d, #ff85c2, #ff4d9d);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: shimmer 3s infinite linear;
+  }
+
+  @keyframes shimmer {
+    from { background-position: 0%; }
+    to { background-position: 200%; }
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    object-fit: cover;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  button {
+    padding: 12px 24px;
+    font-size: 18px;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  #yesBtn {
+    background: linear-gradient(135deg, #ff4d9d, #ff85c2);
+    color: white;
+    box-shadow: 0 0 15px rgba(255,77,157,0.6);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 10px #ff85c2; }
+    50% { box-shadow: 0 0 25px #ff4d9d; }
+    100% { box-shadow: 0 0 10px #ff85c2; }
+  }
+
+  #noBtn {
+    background: #e5e5e5;
+    color: #444;
+  }
+
+  .celebrate {
+    animation: glow 1.5s infinite alternate;
+  }
+
+  @keyframes glow {
+    from { box-shadow: 0 0 25px #ff85c2; }
+    to { box-shadow: 0 0 60px #ff2f7a; }
+  }
+
+  .float {
+    position: absolute;
+    font-size: 18px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes floatUp {
+    from {
+      transform: translateY(100vh) scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-10vh) scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: pink;
+    opacity: 0.9;
+    z-index: 9999;
+    pointer-events: none;
+    animation: confettiFall linear forwards;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1;}
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0;}
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+  <h1 id="caption">Will you be my Valentine, my favorite stage? ✨</h1>
+
+  <img id="photo"
+       src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHV1eTI3cjFnOTh3NW8yd2FudXphbDlhbGxwbDVjdm9qbjM4aHRzcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/HDPP0UTL1YpA9Os50g/giphy.gif"
+       alt="start GIF">
+
+  <div class="buttons">
+    <button id="noBtn">No</button>
+    <button id="yesBtn">Yes</button>
+  </div>
+</div>
+
+<script>
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const photo = document.getElementById("photo");
+  const caption = document.getElementById("caption");
+  const card = document.getElementById("card");
+
+  let noActivated = false;
+
+  function spawnConfetti() {
+    for (let i = 0; i < 50; i++) {
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * window.innerWidth + "px";
+      c.style.backgroundColor = ["#ff4d9d","#ff85c2","#ffc0cb","#ffe6f3"][Math.floor(Math.random()*4)];
+      c.style.width = 5 + Math.random()*10 + "px";
+      c.style.height = 5 + Math.random()*10 + "px";
+      c.style.animationDuration = 2 + Math.random()*2 + "s";
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),4000);
+    }
+  }
+
+  yesBtn.onclick = () => {
+    caption.textContent = "It’s official… we’re in our main character era ✨💖";
+    photo.src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMWhscDkybmVsZWw3cWFrZG12cnR0bzEwbXRmNWhldTlrNjNxZ3ViaiZlcD12MV9pbnRlcm5hbF9naWQmY3Q9Zw/U0obR8DnAieiBYggNZ/giphy.gif";
+    card.classList.add("celebrate");
+    noBtn.style.display = "none";
+    yesBtn.style.transform = "scale(1.15)";
+    spawnConfetti();
+  };
+
+  noBtn.onclick = () => {
+    if (!noActivated) {
+      caption.textContent = "This button is just for the aesthetic 🎀";
+      photo.src = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnRyamMzbnk4dDh3MmYyeGYxNjVxcmdwaHg2eG4wMHVraHdrcWJ0MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/PzbUzFmijd6MjvTzY8/giphy.gif";
+      noActivated = true;
+    }
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+    noBtn.style.position = "fixed";
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+  };
+
+  // Floating hearts & sparkles
+  setInterval(() => {
+    const el = document.createElement("div");
+    el.className = "float";
+    el.textContent = Math.random() > 0.5 ? "💗" : "✨";
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.fontSize = 14 + Math.random() * 22 + "px";
+    el.style.animationDuration = 4 + Math.random() * 4 + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 8000);
+  }, 250);
+</script>
+
+</body>
+</html>
